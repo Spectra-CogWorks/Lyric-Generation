@@ -1,5 +1,6 @@
 import numpy as np
 from collections import Counter, defaultdict
+import re
 
 def unzip(pairs):
     """
@@ -58,7 +59,7 @@ def train_lm(text, n):
     
     history = "~" * (n-1)
 
-    tokens = text.split(" ")
+    tokens = re.split(' |\n|\u2005', text)
     
     for word in tokens:
         model[history][word] += 1
