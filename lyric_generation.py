@@ -1,6 +1,13 @@
 import numpy as np
 from collections import Counter, defaultdict
 import re
+import pickle
+
+with open("artist_to_lm.pkl", mode="rb") as opened_file:
+    artist_to_lm = pickle.load(opened_file)
+
+with open("name_to_lyr.pkl", mode="rb") as opened_file:
+    name_to_lyr = pickle.load(opened_file)
 
 def unzip(pairs):
     """
@@ -173,3 +180,19 @@ def generate_text(original, lm, n, n_words=100):
                 text[i] = "\n" + text[i]
         
     return print(" ".join(text))
+
+def start():
+    artist = input("Please enter an artist: ")
+    n_words = int(input("Please enter the number of words you want to generate: "))
+
+    if " " in artist:
+        artist = "-".join(artist.split(" "))
+
+    if artist not in artist_to_lm.keys():
+        ans = input("Sorry, that artist is not in my database. Would you like to try again? [Y/N] ")
+        if ans == "Y" or "y":
+            start()
+    else:
+        generate_text(name_to_lyr[artist], artist_to_lm[artist], 4, n_words=n_words)
+
+start()
