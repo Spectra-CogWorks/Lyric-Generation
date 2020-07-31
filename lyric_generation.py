@@ -136,12 +136,11 @@ def generate_word(lm, history):
     str
         The predicted next word, or '~' if history is not in language model.
     """
-    word, prob = unzip(lm[history])
-    
     if history not in lm:
         return '~'
-    else:
-        return np.random.choice(word, p=prob)
+    
+    word, prob = unzip(lm[history])
+    return np.random.choice(word, p=prob)
 
 
 def generate_text(original, lm, n, n_words=100):
